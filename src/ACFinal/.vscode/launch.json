@@ -1,0 +1,53 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MainGUILaunch",
+            "request": "launch",
+            "mainClass": "MainGUILaunch",
+            "projectName": "TOFinal_8efd4565"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Prueba2",
+            "request": "launch",
+            "mainClass": "Prueba2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - PrintBoard",
+            "request": "launch",
+            "mainClass": "PrintBoard"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - pruebas2",
+            "request": "launch",
+            "mainClass": "pruebas2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Prueba",
+            "request": "launch",
+            "mainClass": "Prueba"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Demo2",
+            "request": "launch",
+            "mainClass": "Demo2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Demo",
+            "request": "launch",
+            "mainClass": "Demo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TresEnRaya",
+            "request": "launch",
+            "mainClass": "TresEnRaya"
+        }
+    ]
+}

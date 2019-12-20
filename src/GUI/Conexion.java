@@ -21,13 +21,17 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import ACFinal.*;
 /**
  *
  * @author Carlos Alberto Mestas Escarcena
  */
 public class Conexion extends javax.swing.JFrame {
     
+    Game game = new GameTresEnRaya();
+    PrintBoard printL = new PrintBoard(game);
     static Socket s;
     static ServerSocket ss;
     static InputStreamReader isr;
@@ -35,7 +39,8 @@ public class Conexion extends javax.swing.JFrame {
     static String message;
     static String ipJugador1;
     static String ipJugador2;
-    
+    static String model1;
+    static String model2;
     
     /**
      * Creates new form NewJFrame
@@ -228,11 +233,16 @@ public class Conexion extends javax.swing.JFrame {
         // Realiza la conexion con las direcciones ip enviadas por los celulares
         // Se extrae solamente la direccion IP del texto recibido
         // Ya que se recibe la IP y el modelo del celular
-        ipJugador1 = jTextField2.getText().substring(0,11);
+        ipJugador1 = jTextField2.getText().substring(0,13);
         // Luego de recibir la direccion solamente seleccionamos el modelo del celular para mostrarlo
-        jTextField2.setText(jTextField2.getText().substring(11,jTextField2.getText().length()));
-        ipJugador2 = jTextField3.getText().substring(0,11);
-        jTextField3.setText(jTextField3.getText().substring(11,jTextField3.getText().length()));
+        model1 = jTextField2.getText().substring(14,jTextField2.getText().length());
+        jTextField2.setText(jTextField2.getText().substring(13,jTextField2.getText().length()));
+        ipJugador2 = jTextField3.getText().substring(0,13);
+        model2 = jTextField3.getText().substring(14,jTextField2.getText().length());
+        jTextField3.setText(jTextField3.getText().substring(13,jTextField3.getText().length()));
+        System.out.println(ipJugador1+"\n"+ipJugador2);
+        System.out.println(model1+"\n"+model2);
+        
         try{
             // Se crean dos sockes, con el mismo puerto pero con diferente direccion de envio
             // Una direccion de envio para cada celular de acuerdo al jugador
@@ -322,7 +332,8 @@ public class Conexion extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+                            Conexion conexion = new Conexion();
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -342,7 +353,16 @@ public class Conexion extends javax.swing.JFrame {
                 message = br.readLine();
 
                 System.out.println(message);
-                    
+                
+                
+                // Se va imprimiendo los mensajes enviados
+                if(jTextArea1.getText().toString().equals("")){
+                    jTextArea1.setText(message);
+                }
+                else{
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + message);
+                }
+                
                 // Primeramente donde veremos la primera direccion y modelo
                 // En el caso de que este vacio lo considerara como jugador 1
                 if(jTextField2.getText().equals("")){
@@ -360,13 +380,11 @@ public class Conexion extends javax.swing.JFrame {
                 
                 }
                 
-                // Se va imprimiendo los mensajes enviados
-                if(jTextArea1.getText().toString().equals("")){
-                    jTextArea1.setText(message);
+                else{// if((jTextField2.getText().length() != 0) && (jTextField3.getText().length() != 0)){
+                    conexion.sendMessage(message);
+                
                 }
-                else{
-                    jTextArea1.setText(jTextArea1.getText() + "\n" + message);
-                }
+
             }
         }
         catch(IOException e){
@@ -409,6 +427,48 @@ public class Conexion extends javax.swing.JFrame {
     public String getLocalIPv4() throws Exception{
         InetAddress address = InetAddress.getLocalHost();
         return address.getHostAddress();    
+    }
+    
+    public void sendMessage(String message){
+        System.out.println(message.substring(0,9));
+        if(message.substring(0,9).equals("Jugador 1")){
+            try{
+            Socket s2 = new Socket(ipJugador2,7801);
+        
+            PrintWriter pw2 = new PrintWriter(s2.getOutputStream());
+            
+            pw2.write(message);
+            
+            pw2.flush();
+            
+            pw2.close();
+            
+            s2.close();
+        
+            }
+            
+            catch(IOException e){
+            }
+        }
+        if(message.substring(0,9).equals("Jugador 2")){
+            try{
+            Socket s2 = new Socket(ipJugador1,7801);
+        
+            PrintWriter pw2 = new PrintWriter(s2.getOutputStream());
+            
+            pw2.write(message);
+            
+            pw2.flush();
+            
+            pw2.close();
+            
+            s2.close();
+        
+            }
+            
+            catch(IOException e){
+            }
+        }        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
